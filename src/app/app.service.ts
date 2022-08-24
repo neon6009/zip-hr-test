@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { FakeTodos } from './shared/consts/fake-todos';
 import { Todo } from './shared/interfaces/todo';
@@ -7,7 +8,6 @@ import { Todo } from './shared/interfaces/todo';
   providedIn: 'root',
 })
 export class AppService {
-
   /** Key for todos in localStorage. */
   private readonly todosKey = 'todos';
 
@@ -18,7 +18,7 @@ export class AppService {
    */
   readonly todos: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([]);
 
-  constructor() {
+  constructor(private fb: FormBuilder) {
     console.debug('AppService initiated.');
     /** Load initial value. */
     console.debug('Loading todos from localStorage.');
@@ -37,5 +37,21 @@ export class AppService {
         localStorage.setItem(this.todosKey, JSON.stringify(value));
       },
     });
+  }
+
+  getTodoForm(): FormGroup {
+    return this.fb.group({
+      title: [null],
+      date: [null],
+      priority: [''],
+    });
+  }
+
+  saveTodo(newTodo: Todo): void {
+    const storedTodos = JSON.parse(
+      localStorage.getItem(this.todosKey) as string
+    );
+
+    this.todos.next([...storedTodos, newTodo]);
   }
 }

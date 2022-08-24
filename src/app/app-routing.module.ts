@@ -4,7 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./todos/todos.module').then(m => m.TodosModule),
+    loadChildren: () =>
+      import('./todos/todos.module').then((m) => m.TodosModule),
+  },
+  {
+    path: 'new',
+    loadChildren: () =>
+      import('./todo-create/todo-create.module').then(
+        (m) => m.TodoCreateModule
+      ),
   },
 ];
 
@@ -12,5 +20,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule { }

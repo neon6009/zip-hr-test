@@ -1,0 +1,31 @@
+.btn {
+  border: 1px solid #ced4da;
+}
+
+.btn-today {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.btn-clear {
+  margin-top: 0.5rem;
+  margin-left: -0.5rem;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.datepicker {
+  width: 275px;
+}
+
+.container {
+  width: 750px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto
+}
+
+.margin {
+  margin-top: 10px;
+}
