@@ -15,6 +15,7 @@ export class TodoCreateComponent implements OnInit {
   form: FormGroup;
   model: NgbDateStruct | null;
   todoPriority = TodoPriority;
+  minDate: NgbDateStruct;
 
   constructor(
     private appService: AppService,
@@ -24,6 +25,7 @@ export class TodoCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.appService.getTodoForm();
+    this.minDate = this.fromModel(moment().format('DD.MM.YYYY'), '.') as NgbDateStruct;
   }
 
   selectToday(): void {
@@ -44,5 +46,42 @@ export class TodoCreateComponent implements OnInit {
       priority: this.form.value.priority,
     });
     this._router.navigateByUrl('');
+  }
+
+  fromModel(value: Date | String | Number, DELIMITER: string): NgbDateStruct | undefined {
+    try {
+      let ngbDate: NgbDateStruct = {
+        year: 0,
+        month: 0,
+        day: 0
+      };
+      if (value instanceof Date) {
+        ngbDate = {
+          day: value.getDate(),
+          month: value.getMonth(),
+          year: value.getFullYear(),
+        };
+      } else if (value instanceof String || typeof value === 'string') {
+        const dateArr = value.split(' ')[0]?.split(DELIMITER);
+        ngbDate = {
+          day: Number(dateArr[0]),
+          month: Number(dateArr[1]),
+          year: Number(dateArr[2]),
+        };
+      } else if (value instanceof Number || typeof value === 'number') {
+        const date = new Date(value as number);
+        ngbDate = {
+          day: date.getDate(),
+          month: date.getMonth() + 1,
+          year: date.getFullYear(),
+        };
+      }
+      return ngbDate;
+    } catch (error) {
+      console.log(
+        'Error convert date to NgbDateStruct. Check input format value date!',
+        error,
+      );
+    }
   }
 }

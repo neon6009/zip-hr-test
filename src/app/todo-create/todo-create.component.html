@@ -19,6 +19,7 @@
         id="date"
         name="date"
         formControlName="date"
+        [minDate]="minDate"
         [(ngModel)]="model"
         [footerTemplate]="footerTemplate"
         ngbDatepicker
